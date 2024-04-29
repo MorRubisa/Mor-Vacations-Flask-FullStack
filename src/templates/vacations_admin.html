@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{%block title%}Vacations | All Vacations{%endblock title%}
+
+{%block content%}
+
+    <!--"Add Vacation" button -->
+    <div>
+        <a href="{{ url_for('vacations_view.insert') }}" class="add-btn"><i class="animation"></i>Add New Vacation<i class="animation"></i></a>
+    </div>
+
+    <br><br>
+    <!--Sort options-->
+    <div class="sort-buttons-container">
+        <div class="sort-title">Sort Options</div>
+        
+        <div class="sort-buttons">    
+            <a href="?sort=country_name" class="sort">🌏Country A-Z</a> 
+            <a href="?sort=country_name&reverse=true" class="sort">🌏Country Z-A</a>
+            <a href="?sort=start_date" class="sort">📆Start Date</a> 
+            <a href="?sort=start_date&reverse=true" class="sort">🗓️Start Date Backward</a> 
+            <a href="?sort=end_date" class="sort">🗓️End Date</a>
+            <a href="?sort=end_date&reverse=true" class="sort">🗓️End Date Backward</a>
+            <a href="?sort=price" class="sort">💵Price</a>  
+            <a href="?sort=price&reverse=true" class="sort">💵Price Backward</a>
+
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="cards-container">
+            
+        {% for v in vacations %}
+
+            <div class="card">
+
+                <div class= "card-top">
+                    
+                    <!-- Top part with the country name and image-->
+                    <a href="{{ url_for('vacations_view.details', vacation_id=v.vacation_id )}}">
+                        <img src="{{url_for('vacations_view.get_image', file_name = (v.file_name if v.file_name else '---')) }}" class="card-img-top">
+                    </a>
+
+                    <div>
+                        <h5 class="country-name">{{v.country_name}}</h5>
+                            
+                    </div>
+                
+                    <div class="card-header">
+                        <div class="edit-delete-buttons">
+                            <a href="{{ url_for('vacations_view.delete', vacation_id=v.vacation_id) }}" class="delete-button" onclick="confirmDelete()">
+                                <div class="delete-button-sign">
+                                    <svg viewBox="0 0 16 16" class="bi bi-trash3-fill" fill="currentColor" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"></path>
+                                    </svg>
+                                </div> 
+                                <div class="delete-button-text">Delete</div>
+                            </a>
+
+                            <span class="spacer"></span> <!-- margin -->
+
+                            <a href="{{ url_for('vacations_view.edit', vacation_id=v.vacation_id )}}" class="edit-link" >
+                                <div class="edit-button">
+                                    <svg class="edit-svgIcon" viewBox="0 0 512 512"  height="20" width="20">
+                                        <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
+                                    </svg>
+                                </div>
+                                <div class="edit-button-text">Edit</div>
+                            </a>
+                        </div>
+                    </div>
+        
+                </div>
+
+                <div class="card-dates">
+                    <p class="card-text"> 🗓️ {{v.start_date.strftime('%d-%m-%Y')}} ➡️ {{v.end_date.strftime('%d-%m-%Y')}}</p>
+                    <!-- Calculate the number of nights -->
+                    <p class="card-text">🌜 {{ (v.end_date - v.start_date).days }} nights</p>
+                </div>
+                    
+                <div class="card-description">
+                    <p>{{v.description}}</p>    
+                </div>
+                    
+                <div class="card-price">
+                    <p> ${{v.price | round(2)}} </p>
+                </div>
+
+            </div>
+        {% endfor %}
+
+        <!--Button with Link to go back to the top-->
+        <a href="{{ url_for('vacations_view.list')}}">
+            <button class="back-top-button">
+                <svg class="back-top-svgIcon" viewBox="0 0 384 512">
+                    <path
+                    d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
+                    ></path>
+                </svg>
+            </button>
+        </a>
+
+    </div>
+
+{%endblock content%}
+
+

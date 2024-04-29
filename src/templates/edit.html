@@ -1,0 +1,49 @@
+{%extends "layout.html"%}
+
+{%block title%}Edit Vcation{%endblock title%}
+
+{% block content%}
+
+    <form onsubmit="return validateDates()" method = "post"  class="amazing-form" enctype="multipart/form-data">
+         <h2>Edit Vacation</h2>
+
+        <input type="hidden" name="vacation_id" value="{{vacation.vacation_id}}">
+
+        <label>Country: </label>
+     
+        <select  type="text" name="country_id" class="form-control" required>
+            {% for country in countries %}
+                <option value="{{ country.country_id }}" {{'selected' if vacation.country_id == country.country_id else ''}}>{{ country.country_name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Description: </label>
+        <textarea  type="text" name="description" class="form-control" required minlength="2" maxlength="1000">{{ vacation.description }}</textarea>
+
+        <label>Start Date: </label>
+        <input id= "start_date" type="date" name="start_date" class="form-control"value= "{{vacation.start_date}}" required>
+      
+        <label>End Date: </label>
+        <input id= "end_date" type="date" name="end_date" class="form-control"value= "{{vacation.end_date}}" required>
+      
+        <label>Price: </label>
+        <div class="input-with-symbol">
+            <span class="symbol">$</span>
+            <input type="number" name="price" step="0.01" class="form-control" value="{{ vacation.price }}" min="0" max="10000" required>
+        </div>
+
+
+        <label>Cover Image: </label>
+        <div>
+            <input type="file" name="image" id="fileInput" accept="image/*" class="form-control"value= "{{vacation.file_name}}" onchange="previewImage()">
+            <img src="{{url_for('vacations_view.get_image',  file_name = (vacation.file_name if vacation.file_name else '---')) }}" id="imagePreview" class="form-image">           
+        </div>
+           
+        <br><br>
+        <button onclick="confirmUpdate()"class="btn btn-primary w-100">Update</button>
+        <br><br>
+        <a onclick="confirmCancel()" href="{{ url_for('vacations_view.list') }}" class="link-square btn-cancel">Cancel</a>
+   
+    </form>
+
+{% endblock content%}

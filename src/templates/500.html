@@ -1,0 +1,26 @@
+{%extends "layout.html"%}
+
+{%block title%}Page Not Found{%endblock title%}
+
+{% block content%}
+
+    <div class ="home-button">
+        <a href="{{ url_for ('home_view.home')}}">Home</a>
+    </div>
+    
+    <br>
+
+    <div class="error-container">
+        <div class="error-message">
+            <h2>Some error occurred, please try again later.</h2>
+        
+        
+        </div>
+    </div>
+
+    <div class="gif-container">
+        <img width="560" height="315" src="https://media4.giphy.com/media/3ohs81rDuEz9ioJzAA/giphy.gif?cid=6c09b952jgkyxylqxj5gujkwtp12tnlirn88k5h1d0w9w6cu&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g"
+         allow="autoplay" title="Page not Found">
+    </div>
+
+{% endblock content%}

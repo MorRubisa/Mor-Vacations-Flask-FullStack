@@ -1,0 +1,43 @@
+{%extends "layout.html"%}
+
+{%block title%}Vacation Details{%endblock title%}
+
+{% block content%}
+<div class="details-container">
+    
+    <div class="details">
+
+        <!--a button to go back to the vacations page -->
+        <div>  
+            <a href="{{ url_for('vacations_view.list') }}" class="go-back-button">BACK
+                <div class="go-back-icon">
+                    <svg height="24" width="24"viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" fill="currentColor"></path>
+                    </svg>
+                </div>
+            </a>
+        </div>
+        <br>
+
+        <h3 class="details-title"> Details of a Vacation in  {{vacation.country_name}}</h3> <!--country name-->
+        <br>
+        <h4 class="details-descriptions"> Description: <br> {{vacation.description}}</h4>
+        <h5>Dates: {{vacation.start_date.strftime('%d-%m-%Y')}} ➡️ {{vacation.end_date.strftime('%d-%m-%Y')}}</h5>  
+        <!-- Calculate the number of nights -->
+        <h5 class="details-total-nights">A Total of {{ (vacation.end_date - vacation.start_date).days }} nights</h5>
+        <h5 class="details-price">Price: $ {{vacation.price}}</h5>
+        <!-- Display the updated like count -->
+        <h5 class="details-number-likes">Number of Likes: {{ likes_for_vacation}}</h5>
+        <img class = "image-details" src="{{url_for('vacations_view.get_image',  file_name = (vacation.file_name if vacation.file_name else '---')) }}">
+
+        <br><br>
+
+        <div class= "details-buttons-container">    
+            <a href="{{ url_for('vacations_view.edit', vacation_id=vacation.vacation_id) }}" class="details-buttons">Edit</a>
+            <a onclick="confirmDelete()" href="{{ url_for('vacations_view.delete', vacation_id=vacation.vacation_id) }}" class="details-buttons">Delete</a>
+        </div>
+
+    </div>
+</div>
+{% endblock content%}

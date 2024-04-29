@@ -1,0 +1,25 @@
+{%extends "layout.html"%}
+
+{%block title%}Login{%endblock title%}
+
+{% block content%}
+    <form method = "post"  class="amazing-form">
+
+        <h2>Login</h2>
+
+        <label>Email: </label>
+        <input type="email" name="email"  value="{{credentials.email}}" class="form-control" required minlength="5" maxlength="100">
+      
+        <label>Password: </label>
+        <input type="password" name="password" value="{{credentials.password}}" class="form-control" required minlength="4" maxlength="100">
+
+        <button class="btn btn-primary w-100">Login</button>
+        <br><br>
+        
+        <p>Don't have an account?<br>
+            <a href="{{ url_for('auth_view.register') }}">Register here</a>
+        </p>
+
+    </form>
+
+{% endblock content%}

@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{%block title%}Vacations | Home{%endblock title%}
+
+{% block content %}
+    <div class="home-content">
+
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='images/logo.png') }}">
+        </div>
+
+        <div class="intro-text">
+            <p>Welcome to Travel Mor(e)! 🩱✈🌏
+                looking for a relaxed sunny vacation, or a cultural experience in a european capital? We've got it all here in Travel Mor(e)!</p>     
+            <p>Get to your next destination easily with Travel Mor(e)!</p>     
+            <p>Travel Mor(E) is a digital travel agency, where you can search over diffrent destinations for your next vacation, worldwide.
+                Just enter your desired destination, search for the date and that's it - get your 🛂& 👜 ready!</p>     
+            <p>Travel Mor(e) gives you the ability to check what others thought about each destination that we offer, by presenting you the amount of 👍's each destination got from our happy clients.</p>     
+            <p>We use an innovative search engine, to assure you that you will find what your looking for, the right vacation in a reasonable price.</p>     
+            <p>Start your journey now and discover the world with Travel Mor(e)!</p>     
+        </div>
+
+    </div>
+
+{% endblock content %}
